@@ -4,7 +4,38 @@
 import { useState } from 'react';
 import UrlAlias from './url-alias';
 import insertUrl from '@/lib/insertUrl';
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
+const Form = styled('form')({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '90%',
+    maxWidth: '500px',
+    margin: '0 auto',
+});
+
+const Input = styled('input')({
+    width: '100%',
+    padding: 'calc(0.5em + 1%)',
+    margin: 'calc(0.3em + 1%) 0',
+    fontSize: 'calc(0.9em + 0.5vw)',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    boxSizing: 'border-box',
+    outline: 'none',
+    '&:focus': {
+        borderColor: '#0070f3',
+    },
+});
+
+const StyledButton = styled(Button)({
+    width: '100%',
+    padding: 'calc(0.5em + 1%)',
+    fontSize: 'calc(0.9em + 0.5vw)',
+    margin: 'calc(0.3em + 1%) 0',
+});
 
 
 function UrlShortenerForm() {
@@ -29,7 +60,7 @@ function UrlShortenerForm() {
     return(
 
         <div>
-            <form
+            <Form
                 className = "p-8 m-2 text-lg bg-sky-200 flex flex-col"
                 onSubmit={(e) => {
                     e.preventDefault();
@@ -37,7 +68,7 @@ function UrlShortenerForm() {
                 }}
                 >
                 {error.length>0 && <p>{error}</p>}
-                <input
+                <Input
                     placeholder="alias"
                     type="text"
                     value={alias}
@@ -46,7 +77,7 @@ function UrlShortenerForm() {
                         setAlias(e.target.value);
                     }}
                     />
-                <input
+                <Input
                     placeholder="url"
                     type="text"
                     value={url}
@@ -55,10 +86,10 @@ function UrlShortenerForm() {
                         setUrl(e.target.value);
                     }}
                     />
-                <button type="submit" className="bg-sky-300">
+                <StyledButton type="submit" className="bg-sky-300">
                     Submit
-                </button>
-            </form>
+                </StyledButton>
+            </Form>
             <UrlAlias url={shortenedUrl} />
         </div>
     );
