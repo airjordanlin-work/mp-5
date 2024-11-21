@@ -1,99 +1,86 @@
-
 'use client';
 
 import { useState } from 'react';
 import UrlAlias from './url-alias';
 import insertUrl from '@/lib/insertUrl';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-
-const Form = styled('form')({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '90%',
-    maxWidth: '500px',
-    margin: '0 auto',
-});
-
-const Input = styled('input')({
-    width: '100%',
-    padding: 'calc(0.5em + 1%)',
-    margin: 'calc(0.3em + 1%) 0',
-    fontSize: 'calc(0.9em + 0.5vw)',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-    outline: 'none',
-    '&:focus': {
-        borderColor: '#0070f3',
-    },
-});
-
-const StyledButton = styled(Button)({
-    width: '100%',
-    padding: 'calc(0.5em + 1%)',
-    fontSize: 'calc(0.9em + 0.5vw)',
-    margin: 'calc(0.3em + 1%) 0',
-});
-
+import { Box, Button, TextField, Typography, Alert } from '@mui/material';
 
 function UrlShortenerForm() {
     const [alias, setAlias] = useState('');
     const [url, setUrl] = useState('');
-    const [error,setError] = useState('');
+    const [error, setError] = useState('');
     const [shortenedUrl, setShortenedUrl] = useState('');
 
-
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         setShortenedUrl('');
-        const res = await insertUrl({url, alias});
-        if(res.length === 0)
-        {
+        const res = await insertUrl({ url, alias });
+        if (res.length === 0) {
             setShortenedUrl(window.location.href + alias);
             return;
         }
         setError(res);
-    }
+    };
 
-
-    return(
-
-        <div>
-            <Form
-                className = "p-8 m-2 text-lg bg-sky-200 flex flex-col"
+    return (
+        <Box
+            sx={{
+                maxWidth: '400px',
+                margin: '2rem auto',
+                padding: '2rem',
+                borderRadius: '8px',
+                backgroundColor: '#e3f2fd',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
+            }}
+        >
+            <form
                 onSubmit={(e) => {
                     e.preventDefault();
                     handleSubmit();
                 }}
-                >
-                {error.length>0 && <p>{error}</p>}
-                <Input
-                    placeholder="alias"
-                    type="text"
+                style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+            >
+                {error.length > 0 && <Alert severity="error">{error}</Alert>}
+                <TextField
+                    label="Alias"
+                    variant="outlined"
+                    fullWidth
                     value={alias}
                     onChange={(e) => {
-                        setError("");
+                        setError('');
                         setAlias(e.target.value);
                     }}
-                    />
-                <Input
-                    placeholder="url"
-                    type="text"
+                />
+                <TextField
+                    label="URL"
+                    variant="outlined"
+                    fullWidth
                     value={url}
                     onChange={(e) => {
-                        setError("");
+                        setError('');
                         setUrl(e.target.value);
                     }}
-                    />
-                <StyledButton type="submit" className="bg-sky-300">
+                />
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ textTransform: 'none' }}
+                >
                     Submit
-                </StyledButton>
-            </Form>
+                </Button>
+            </form>
+            {shortenedUrl && (
+                <Typography
+                    sx={{ marginTop: '1rem', color: '#1976d2', wordBreak: 'break-word' }}
+                    variant="body1"
+                >
+                    Shortened URL: <a href={shortenedUrl} target="_blank" rel="noopener noreferrer">{shortenedUrl}</a>
+                </Typography>
+            )}
             <UrlAlias url={shortenedUrl} />
-        </div>
+        </Box>
     );
-
 }
 
 export default UrlShortenerForm;
