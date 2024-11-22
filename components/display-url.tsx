@@ -23,12 +23,12 @@ function UrlShortenerForm() {
     return (
         <Box
             sx={{
-                width: '80%',
-                margin: '5% auto',
-                padding: '5%',
+                maxWidth: '400px',
+                margin: '2rem auto',
+                padding: '2rem',
                 borderRadius: '8px',
                 backgroundColor: '#e3f2fd',
-                boxShadow: '0 4% 10% rgba(0, 0, 0, 0.2)',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)'
             }}
         >
             <form
@@ -36,7 +36,7 @@ function UrlShortenerForm() {
                     e.preventDefault();
                     handleSubmit();
                 }}
-                style={{ display: 'flex', flexDirection: 'column', gap: '5%' }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
             >
                 {error.length > 0 && <Alert severity="error">{error}</Alert>}
                 <TextField
@@ -71,7 +71,7 @@ function UrlShortenerForm() {
             </form>
             {shortenedUrl && (
                 <Typography
-                    sx={{ marginTop: '5%', color: '#1976d2', wordBreak: 'break-word' }}
+                    sx={{ marginTop: '1rem', color: '#1976d2', wordBreak: 'break-word' }}
                     variant="body1"
                 >
                     Shortened URL: <a href={shortenedUrl} target="_blank" rel="noopener noreferrer">{shortenedUrl}</a>
